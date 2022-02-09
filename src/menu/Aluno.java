@@ -6,6 +6,10 @@ public class Aluno extends Pessoas {
     
     private double nota1,nota2,nota3,nota4;
     
+    public Aluno(){
+        
+    }
+    
     
     @Override
   public void Status(){

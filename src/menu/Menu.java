@@ -9,7 +9,12 @@ public class Menu {
         int n = 10;
         int opcao = 0, posicao;
         String alt;
-
+        
+        Professores professores[] = new Professores[n];
+        for (int j = 0; j < n; j++) {
+            professores[j] = new Professores();
+        }
+        
         Aluno aluno[] = new Aluno[n];
         for (int j = 0; j < n; j++) {
             aluno[j] = new Aluno();
@@ -37,7 +42,7 @@ public class Menu {
             opcao = input.nextInt();
 
             switch (opcao) {
-                case 1:
+                case 1 -> {
                     for (posicao = 0; posicao <= n; posicao++) {
                         if (posicao < n) {
                             if (pessoas[posicao].getApagado() == true) {
@@ -47,25 +52,10 @@ public class Menu {
                                 pessoas[posicao].setApagado(false);
                                 
                                 System.out.println("Digite o CPF do usuario:");
-                                pessoas[posicao].setCpf(input.nextLong());
+                                pessoas[posicao].setCpf(input.nextLong()); 
                                 
-                                System.out.println("Voce deseja cadastrar um aluno SIM ou NÃO?");
-                                alt = input.next().toUpperCase();
+                                pessoas[posicao].seteUmProfessor(true);
                                 
-                                if (alt.equalsIgnoreCase("sim")) {
-                                pessoas[posicao].seteUmAluno(true);
-                                System.out.print("Voce deseja adicionar a nota do primeiro bimestre digite SIM ou NÃO!\n");
-                                alt = input.next().toUpperCase();
-
-                                if (alt.equalsIgnoreCase("sim")) {
-                                    System.out.print("Digite a Primeira nota do usuario.\n");
-                                    aluno[posicao].setNota1(input.nextDouble());
-                                    pessoas[posicao].setAluno(true);
-                                }
-                                }else{
-                                    pessoas[posicao].seteUmProfessor(true);
-                                }
-  
                                 System.out.printf("Usuario cadastrado com sucesso!\n");
                                 break;
 
@@ -73,56 +63,60 @@ public class Menu {
                         }
 
                     }
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     for (int cont = 0; cont < n; cont++) {
                         if (pessoas[cont].geteUmProfessor() == true) {
                             System.out.println("Professor: " + pessoas[cont].getNome());
                         }
                     }
-                    break;
+                }
 
-                case 3:
+                case 3 -> {
                     for (int cont = 0; cont < n; cont++) {
                         if (pessoas[cont].geteUmAluno() == true) {
                             System.out.println("Aluno: " + pessoas[cont].getNome());
                         }
                     }
-                    break;
+                }
 
-                case 4:
+                case 4 -> {
                     System.out.println("Deseja ver a nota de qual aluno?");
                     String verNota = input.next();
                     System.out.println("Buscando " + verNota);
                     for (int cont = 0; cont < n; cont++) {
                         if (verNota.equals(pessoas[cont].getNome())) {
+                            
                             if(aluno[cont].getNota1()!= 0.0){
-                            System.out.println("Nota do primeiro Bimestre do (a):" + pessoas[cont].getNome() + " " + aluno[cont].getNota1());
+                                System.out.println("Nota do primeiro Bimestre do (a):" + pessoas[cont].getNome() + " " + aluno[cont].getNota1());
+                            }else{
+                                System.out.println("O aluno ainda não tem a nota do segundo bimestre");
                             }
+                            
                             if(aluno[cont].getNota2()!= 0.0){
-                            System.out.println("Nota do segundo  Bimestre do (a):" + pessoas[cont].getNome() + " " + aluno[cont].getNota2());
+                                System.out.println("Nota do segundo  Bimestre do (a):" + pessoas[cont].getNome() + " " + aluno[cont].getNota2());
                             }else{
                                 System.out.println("O aluno ainda não tem a nota do segundo bimestre");
                             }
                             
                             if(aluno[cont].getNota3()!= 0.0){
-                            System.out.println("Nota do terceiro Bimestre do (a):" + pessoas[cont].getNome() + " " + aluno[cont].getNota3());
+                                System.out.println("Nota do terceiro Bimestre do (a):" + pessoas[cont].getNome() + " " + aluno[cont].getNota3());
                             }else{
                                 System.out.println("O aluno ainda não tem a nota do terceiro bimestre");
                             }
                             
-                             if(aluno[cont].getNota4()!= 0.0){
-                            System.out.println("Nota do quarto   Bimestre do (a):" + pessoas[cont].getNome() + " " + aluno[cont].getNota4());
-                             }else{
+                            if(aluno[cont].getNota4()!= 0.0){
+                                System.out.println("Nota do quarto   Bimestre do (a):" + pessoas[cont].getNome() + " " + aluno[cont].getNota4());
+                            }else{
                                 System.out.println("O aluno ainda não tem a nota do quarto bimestre");
                             }
+                            aluno[cont].notaFinal();
 
                         }
                     }
+                }
 
-                    break;
-
-                case 5:
+                case 5 -> {
                     System.out.println("Qual o nome do aluno que voce deseja adionar as notas? ");
                     String nomeAdicionarNota = input.next();
                     System.out.println("Buscando " + nomeAdicionarNota);
@@ -136,14 +130,16 @@ public class Menu {
                             if (alt.equalsIgnoreCase("sim")) {
                                 System.out.println("Nota primeiro Bimestre:");
                                 aluno[cont].setNota1(input.nextDouble());
-                                pessoas[cont].setAluno(true);
+                                pessoas[cont].seteUmAluno(true);
+                                pessoas[cont].seteUmProfessor(false);
+                                
                             }
 
                             System.out.println("Deseja adiconar a nota do segundo bimestre?");
                             alt = input.next().toUpperCase();
 
                             if (alt.equalsIgnoreCase("sim")) {
-                                System.out.println("Nota primeiro Bimestre:");
+                                System.out.println("Nota do segundo Bimestre:");
                                 aluno[cont].setNota2(input.nextDouble());
                                 pessoas[cont].setAluno(true);
                             }
@@ -152,7 +148,7 @@ public class Menu {
                             alt = input.next().toUpperCase();
 
                             if (alt.equalsIgnoreCase("sim")) {
-                                System.out.println("Nota primeiro Bimestre:");
+                                System.out.println("Nota do terceiro Bimestre:");
                                 aluno[cont].setNota3(input.nextDouble());
                             }
 
@@ -160,23 +156,17 @@ public class Menu {
                             alt = input.next().toUpperCase();
 
                             if (alt.equalsIgnoreCase("sim")) {
-                                System.out.println("Nota primeiro Bimestre:");
+                                System.out.println("Nota do quarto Bimestre:");
                                 aluno[cont].setNota4(input.nextDouble());
                             }
                             System.out.println("NOTAS CADASTRADAS COM SUCESSO!");
-
+                            
                         }
-
+                        
                     }
-
-                    break;
-                case 6:
-                        System.out.println("Voce Escolheu sair");
-                    break;
-                default:
-                    System.out.println("Opção Invalida");
-                    break;
-
+                }
+                case 6 -> System.out.println("Voce Escolheu sair");
+                default -> System.out.println("Opção Invalida");
             }
 
         } while (opcao != 6);
